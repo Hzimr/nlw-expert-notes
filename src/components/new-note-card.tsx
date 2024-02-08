@@ -1,7 +1,21 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { IoClose } from 'react-icons/io5'
+import { IoChevronBackCircle, IoClose } from 'react-icons/io5'
+import { ChangeEvent, useState } from 'react';
 
 export function NewNoteCard(){
+  const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
+
+  function handleStartEditor(){
+    setShouldShowOnboarding(false)
+  }
+
+  function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>){
+    if (event.target.value === '')
+    {
+      setShouldShowOnboarding(true)
+    }
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger className='flex flex-col text-left rounded-md bg-slate-700 p-5 gap-3 overflow-hidden hover:ring-2 hover:ring-slate-300 focus-visible:ring-2 focus-visible:ring-lime-400 outline-none'>
@@ -22,9 +36,26 @@ export function NewNoteCard(){
             <span className='text-sm font-medium text-slate-300'>
               Adicionar nota
             </span>
-            <p className='text-sm leading-6 text-slate-400'>
-              Comece <button className='font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button className='font-medium text-lime-400 hover:underline'>utilize apenas texto.</button>
-            </p>
+            {shouldShowOnboarding ? (<p className='text-sm leading-6 text-slate-400'>
+              Comece <button className='font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button 
+                className='font-medium text-lime-400 hover:underline'
+                onClick={handleStartEditor}
+              >utilize apenas texto.</button>
+            </p>) : (
+            <>    
+              <button 
+                className='absolute left-0 top-0'
+              >
+                {/* <IoChevronBackCircle className='size-5' /> 
+                    Voltar*/}
+              </button>
+              <textarea 
+                autoFocus 
+                className='text-sm leading-6 text-slate-400 bg-transparent  resize-none flex-1 outline-none'
+                onChange={handleContentChanged}
+              />
+              </>
+            )}
           </div>
           <button 
             type="button"
