@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { formatDistanceToNow} from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 import { IoClose } from 'react-icons/io5'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 interface NoteCardProps {
   note: {
