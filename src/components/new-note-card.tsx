@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { IoClose } from 'react-icons/io5'
+import { IoChevronBackCircle, IoClose } from 'react-icons/io5'
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'sonner'
 
@@ -25,6 +25,24 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps){
     {
       setShouldShowOnboarding(true)
     }
+  }
+
+  function handleContentChangedWithClick(){
+      
+      if(content === ""){
+        setShouldShowOnboarding(true)
+
+        setIsRecording(false)
+
+        if(speechRecognition !== null) {
+          speechRecognition.stop()
+          speechRecognition = null
+        }
+      } else {
+        toast.info('Há conteúdo dentro das notas')
+        return
+      }
+      
   }
 
   function handleSaveNote(event: FormEvent) {
@@ -123,10 +141,12 @@ export function NewNoteCard({ onNoteCreated }: NewNoteCardProps){
               </p>) : (
               <>    
                 <button 
-                  className='absolute left-0 top-0'
+                  className='flex gap-1 items-center px-1 absolute left-0 top-0'
+                  onClick={() => handleContentChangedWithClick()}
+                  type='button'
                 >
-                  {/* <IoChevronBackCircle className='size-5' /> 
-                      Voltar*/}
+                  <IoChevronBackCircle className='size-5' /> 
+                      Voltar
                 </button>
                 <textarea 
                   autoFocus 
